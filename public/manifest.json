@@ -1,17 +1,16 @@
 {
+  "author": "zitongcharliedeng",
+  "repoUrl": "https://github.com/zitongcharliedeng/Todocard",
+  "name": "Todocard",
+  "description": "GTD with task triaging and reminders all within the FlashcardQueue-centric workflow.",
+  "enableOnMobile": true,
+  "id": "zitongcharliedeng-imfuhvl",
   "manifestVersion": 1,
-  "id": "plugin_template",
-  "name": "Plugin Template",
-  "author": "remnote",
-  "repoUrl": "",
   "version": {
     "major": 0,
     "minor": 0,
     "patch": 1
   },
-  "theme": [],
-  "enableOnMobile": false,
-  "description": "",
   "requestNative": false,
   "requiredScopes": [
     {
