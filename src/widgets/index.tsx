@@ -17,7 +17,7 @@ async function showTaskcardInbox(
   await plugin.window.openFloatingWidget(
     "taskcard_inbox_popup",
     { top: 100, bottom: 0, left: 0, right: 0 },
-    "rn-queue"
+    classContainer
   );
 }
 
@@ -44,7 +44,7 @@ async function onActivate(plugin: ReactRNPlugin) {
   // Register the popup widget component.
   await plugin.app.registerWidget(
     "taskcard_inbox_popup", // I assume this register is needed for openFloatingWidget("taskcard_inbox_popup",) to work earlier.
-    WidgetLocation.Popup, // NOTE FOR LATER: WidgetLocation.Flashcard will place it in the current flashcards contents also work for the floating widget?
+    WidgetLocation.FloatingWidget,
     {
       dimensions: {
         width: "auto",
@@ -53,6 +53,29 @@ async function onActivate(plugin: ReactRNPlugin) {
       // widgetTabTitle: "Taskcard Inbox",
     }
   );
+
+  // FloatingWidget = "FloatingWidget", V
+  // PaneHeader = "PaneHeader",
+  // Index = "Index", X 
+  // TopBar = "TopBar",
+  // QueueToolbar = "QueueToolbar",
+  // DocumentAboveToolbar = "AboveDocumentToolbar",
+  // DocumentBelowToolbar = "DocumentBelowToolbar",
+  // DocumentBelowEditor = "DocumentBelowEditor",
+  // DocumentBelowTitle = "DocumentBelowTitle",
+  // SidebarEnd = "SidebarEnd",
+  // RemReferencePopupStart = "RemReferencePopupStart",
+  // RemReferencePopupRight = "RemReferencePopupRight",
+  // Pane = "Pane",
+  // FlashcardAnswer = "FlashcardAnswer",
+  // Flashcard = "Flashcard",
+  // FlashcardExtraDetail = "FlashcardExtraDetail",
+  // RightSidebar = "RightSidebar",
+  // LeftSidebar = "LeftSidebar",
+  // Popup = "Popup", X
+  // UnderRemEditor = "UnderRemEditor",
+  // RightSideOfEditor = "RightSideOfEditor",
+  // SelectedTextMenu = "SelectedTextMenu"
 
 }
 
