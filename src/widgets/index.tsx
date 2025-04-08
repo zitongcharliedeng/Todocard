@@ -54,12 +54,6 @@ async function onActivate(plugin: ReactRNPlugin) {
         showTaskcardInbox(plugin, "rn-queue");
     }, 25);
   });
-
-  await plugin.app.registerCommand({
-    id: "showTaskcardInbox",
-    name: "TESTING: Show Taskcard Inbox popped over Flashcard Queue box (.rn-queue)",
-    action: () => showTaskcardInbox(plugin, "rn-queue"),
-  });
 }
 
 async function onDeactivate(_: ReactRNPlugin) { }
