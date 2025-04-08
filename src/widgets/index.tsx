@@ -10,73 +10,39 @@ import '../App.css';
 
 async function showTaskcardInbox(
   plugin: RNPlugin,
+  classContainer?: string,
   position?: { top?: number; bottom?: number; left?: number; right?: number },
-  classContainer?: string
 ) {
-  console.log(`!!!!!!!!!!!!! showTaskcardInbox with position: ${JSON.stringify(position)}, classContainer: ${classContainer}`);
   await plugin.window.openFloatingWidget(
     "taskcard_inbox_popup",
-    { top: 100, bottom: 0, left: 0, right: 0 },
+    position ?? { top: 0, left: 0},
     classContainer
   );
 }
 
 async function onActivate(plugin: ReactRNPlugin) {
+  plugin.event.addListener(AppEvents.QueueEnter, undefined, async () => {
+    setTimeout(() => {
+      showTaskcardInbox(plugin, "rn-queue");
+    }, 25);
+  });
 
-  // // I think the AppEvents API QueueEnter	"queue.enter" is for starting the Flashcards?
-  // plugin.event.addListener(AppEvents.QueueEnter, undefined, async () => {
-  //   // We use a small setTimeout delay to make sure the flashcard view has finished
-  //   // rendering before showing the Taskcard Inbox.
-  //   console.log("QueueEnter event triggered!!!!");
-  //   setTimeout(() => {
-  //     showTaskcardInbox(plugin, { top: -180, left: 180 }, "rn-queue__show-answer-btn");
-  //     // "rn-queue" appears to be the central widget class for the queue popup.
-  //   }, 25);
-  // });
-
-  // A test command so you can see how the popup looks using a RemNote command.
   await plugin.app.registerCommand({
     id: "showTaskcardInbox",
     name: "TESTING: Show Taskcard Inbox popped over Flashcard Queue box (.rn-queue)",
-    action: () => showTaskcardInbox(plugin, {}, "rn-queue"),
+    action: () => showTaskcardInbox(plugin, "rn-queue"),
   });
 
-  // Register the popup widget component.
   await plugin.app.registerWidget(
-    "taskcard_inbox_popup", // I assume this register is needed for openFloatingWidget("taskcard_inbox_popup",) to work earlier.
+    "taskcard_inbox_popup",
     WidgetLocation.FloatingWidget,
     {
       dimensions: {
         width: "auto",
         height: "auto",
       },
-      // widgetTabTitle: "Taskcard Inbox",
     }
   );
-
-  // FloatingWidget = "FloatingWidget", V
-  // PaneHeader = "PaneHeader",
-  // Index = "Index", X 
-  // TopBar = "TopBar",
-  // QueueToolbar = "QueueToolbar",
-  // DocumentAboveToolbar = "AboveDocumentToolbar",
-  // DocumentBelowToolbar = "DocumentBelowToolbar",
-  // DocumentBelowEditor = "DocumentBelowEditor",
-  // DocumentBelowTitle = "DocumentBelowTitle",
-  // SidebarEnd = "SidebarEnd",
-  // RemReferencePopupStart = "RemReferencePopupStart",
-  // RemReferencePopupRight = "RemReferencePopupRight",
-  // Pane = "Pane",
-  // FlashcardAnswer = "FlashcardAnswer",
-  // Flashcard = "Flashcard",
-  // FlashcardExtraDetail = "FlashcardExtraDetail",
-  // RightSidebar = "RightSidebar",
-  // LeftSidebar = "LeftSidebar",
-  // Popup = "Popup", X
-  // UnderRemEditor = "UnderRemEditor",
-  // RightSideOfEditor = "RightSideOfEditor",
-  // SelectedTextMenu = "SelectedTextMenu"
-
 }
 
 async function onDeactivate(_: ReactRNPlugin) { }
