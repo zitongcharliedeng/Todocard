@@ -2,7 +2,7 @@
 
 GTD with task triaging and reminders all within the FlashcardQueue-centric workflow.
 
-## Features (WIP)
+## Features (WIP)!
 
 - [ ] Taskcard inbox loads a query Rem showing untriaged tasks
 - [ ] From the Taskcard inbox, triage each tasks with buttons that assign a tag to them.
