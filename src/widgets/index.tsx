@@ -20,6 +20,13 @@ async function showTaskcardInbox(
   );
 }
 
+async function getCurrentFlashcardQueueDimensions(): Promise<{ width: number, height: number }> {
+  return {
+    width: 1000,
+    height: 2000,
+  }
+}
+
 async function onActivate(plugin: ReactRNPlugin) {
   plugin.event.addListener(AppEvents.QueueEnter, undefined, async () => {
     setTimeout(() => {
@@ -37,10 +44,7 @@ async function onActivate(plugin: ReactRNPlugin) {
     "taskcard_inbox_popup",
     WidgetLocation.FloatingWidget,
     {
-      dimensions: {
-        width: "auto",
-        height: "auto",
-      },
+      dimensions: await getCurrentFlashcardQueueDimensions()
     }
   );
 }
