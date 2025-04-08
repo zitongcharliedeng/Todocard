@@ -11,7 +11,7 @@ function TaskcardInboxPopup() {
     <>
       {
         <div
-          className="w-full h-full box-border cursor-pointer rounded-md border border-solid grid gap-1 grid-cols-2 rn-clr-background-primary rn-clr-content-primary"
+          className="rounded-md border border-solid grid gap-1 grid-cols-2 rn-clr-background-primary rn-clr-content-primary"
         >
           <div className="flex text-center text-lg items-center pr-2">
             Welcome to the Taskcard Inbox! <br />
