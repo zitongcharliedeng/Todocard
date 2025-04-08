@@ -15,22 +15,43 @@ async function showTaskcardInbox(
 ) {
   await plugin.window.openFloatingWidget(
     "taskcard_inbox_popup",
-    position ?? { top: 0, left: 0},
+    position ?? { top: 0, left: 0 },
     classContainer
   );
 }
 
 async function getCurrentFlashcardQueueDimensions(): Promise<{ width: number, height: number }> {
-  return {
-    width: 1000,
-    height: 2000,
+  let elementWidth = 500;
+  let elementHeight = 500;
+
+  const element = document.querySelector(`.rn-queue`);
+  if (element) {
+    const rect = element.getBoundingClientRect();
+    elementWidth = rect.width;
+    elementHeight = rect.height;
   }
+
+  return {
+    width: elementWidth,
+    height: elementHeight,
+  }
+}
+
+async function updateTaskcardPopupDimensions(plugin: ReactRNPlugin): Promise<void> {
+  await plugin.app.registerWidget(
+    "taskcard_inbox_popup",
+    WidgetLocation.FloatingWidget,
+    {
+      dimensions: await getCurrentFlashcardQueueDimensions()
+    }
+  );
 }
 
 async function onActivate(plugin: ReactRNPlugin) {
   plugin.event.addListener(AppEvents.QueueEnter, undefined, async () => {
     setTimeout(() => {
-      showTaskcardInbox(plugin, "rn-queue");
+        updateTaskcardPopupDimensions(plugin),
+        showTaskcardInbox(plugin, "rn-queue");
     }, 25);
   });
 
@@ -39,14 +60,6 @@ async function onActivate(plugin: ReactRNPlugin) {
     name: "TESTING: Show Taskcard Inbox popped over Flashcard Queue box (.rn-queue)",
     action: () => showTaskcardInbox(plugin, "rn-queue"),
   });
-
-  await plugin.app.registerWidget(
-    "taskcard_inbox_popup",
-    WidgetLocation.FloatingWidget,
-    {
-      dimensions: await getCurrentFlashcardQueueDimensions()
-    }
-  );
 }
 
 async function onDeactivate(_: ReactRNPlugin) { }
