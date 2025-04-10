@@ -22,6 +22,7 @@ async function applyTaskStatusToCurrentRem(
     plugin.app.toast("applyTaskStatusToCurrentRem: Not a Todo Rem!");
     return;
   }
+  // TODO(feat): await focusedRem.removeTagsWith("Taskcard-"); all refs first. Powerups?
   // [START1] Workaround for Rem.addTag not supporting string inputs despite docs.
   const existingRemForTagName = await plugin.rem.findByName([tagName], null);
   if (!existingRemForTagName) {
@@ -36,6 +37,8 @@ async function applyTaskStatusToCurrentRem(
 
 async function onActivate(plugin: ReactRNPlugin) {
   // [START2] Workaround for Rem.addTag not supporting string inputs despite docs.
+  // TODO(fix): This creates many duplicate Rems each load, check for existing ones first,
+  // Powerups could solve this issue as well as the duplicate Rem searching issues. But idk.
   const toCreateRemsForEachTagName: Promise<void>[] = [
     "TaskcardOverdue",
     "TaskcardSomeday",
