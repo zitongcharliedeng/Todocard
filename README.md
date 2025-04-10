@@ -25,6 +25,9 @@ New task states (**#Taskcard/...**):
 - [ ] **Done**: Finished tasks.
 - [ ] **Failed**: For tasks that cannot be rescheduled - time sensitive e.g. `-[ ] brush my teeth` as part of a morning routine template.
 
+- [x] Create styles for each new tag status
+- [ ] Create keyboard / command shortcut to apply each tag
+
 ### Allowing triaging of inbox tasks, monitoring of tasks currently "doing" and reminders for "scheduled" tasks (i.e. by showing them in inbox when overdue) *using the Taskcard* interface
 
 - [ ] Taskcard inbox loads a query Rem showing untriaged tasks, potentially have a powerup inbox page and portal to that in the Taskcard
