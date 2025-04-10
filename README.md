@@ -9,6 +9,7 @@ This plugin is split into two human-digestible parts:
 ### Adding more RemNote (/todo) task states
 
 Currently RemNote has a simple checkbox binary state - todo, or done. There are plans to have task reminders in the future and I yearn for that day. For now we will make our own states, applied through tags e.g. #Todocard/Doing, or #Todocard/Scheduled. And then to easily discern, each #Todocard state will come with a distinct CSS styling for the task rem, i.e. red and pseudocrossed out (not with strikethrough, but with CSS) for #Taskcard/Failed tasks, or a cyan background for scheduled tasks with a date parameter highlighted.
+![image](https://github.com/user-attachments/assets/00d04b29-6b92-4c95-9033-a3968a966acb)
 
 New task states (**#Taskcard/...**):
 
