@@ -4,11 +4,57 @@ import {
   RNPlugin,
   declareIndexPlugin,
   ReactRNPlugin,
+  Rem,
 } from "@remnote/plugin-sdk";
 import '../style.css';
 import '../App.css';
 
+async function applyTaskStatusToCurrentRem(
+  tagName: string,
+  plugin: ReactRNPlugin
+): Promise<void> {
+  const focusedRem: Rem | undefined = await plugin.focus.getFocusedRem();
+  if (!focusedRem) {
+    plugin.app.toast("applyTaskStatusToCurrentRem: No focused Rem found!");
+    return;
+  }
+  if (!await focusedRem.isTodo()) {
+    plugin.app.toast("applyTaskStatusToCurrentRem: Not a Todo Rem!");
+    return;
+  }
+  // [START1] Workaround for Rem.addTag not supporting string inputs despite docs.
+  const existingRemForTagName = await plugin.rem.findByName([tagName], null);
+  if (!existingRemForTagName) {
+    plugin.app.toast(`applyTaskStatusToCurrentRem: Existing rem for tagName ${tagName} not found!`);
+    return;
+  }
+  await focusedRem.addTag(existingRemForTagName);
+  // [__END1] Workaround for Rem.addTag not supporting string inputs despite docs.
+  plugin.app.toast(`The text of the focusedRem is ${focusedRem.text}.
+    applyTaskStatusToCurrentRem: ${tagName} applied to Todo Rem.`);
+}
+
 async function onActivate(plugin: ReactRNPlugin) {
+  // [START2] Workaround for Rem.addTag not supporting string inputs despite docs.
+  const toCreateRemsForEachTagName: Promise<void>[] = [
+    "TaskcardOverdue",
+    "TaskcardSomeday",
+    "TaskcardDoing",
+    "TaskcardScheduled",
+    "TaskcardDone",
+    "TaskcardFailed",
+  ].map(async (tagName) => {
+    const newRem: Rem | undefined = await plugin.rem.createRem()
+    if (!newRem) {
+      throw new Error(`Failed to create Rem for tagName ${tagName}.`);
+    }
+    newRem.setText([tagName]);
+    return;
+  }
+  );
+  await Promise.all(toCreateRemsForEachTagName);
+  // [__END2] Workaround for Rem.addTag not supporting string inputs despite docs.
+
   plugin.app.registerCSS(
     "#content",
     `
@@ -64,6 +110,22 @@ async function onActivate(plugin: ReactRNPlugin) {
       }
     `
   );
+
+  const toRegisterPluginCommandConfigs = [
+    { statusName: "Overdue" },
+    { statusName: "Someday" },
+    { statusName: "Doing" },
+    { statusName: "Scheduled" },
+    { statusName: "Done" },
+    { statusName: "Failed" },
+  ].map(config =>
+    plugin.app.registerCommand({
+      id: `applyTaskcardStatus${config.statusName}`,
+      name: `Apply Taskcard status to this TodoRem - ${config.statusName}`,
+      action: async () => { await applyTaskStatusToCurrentRem(`Taskcard${config.statusName}`, plugin) },
+    })
+  );
+  await Promise.all(toRegisterPluginCommandConfigs);
 }
 async function onDeactivate(_: ReactRNPlugin) { }
 declareIndexPlugin(onActivate, onDeactivate);
